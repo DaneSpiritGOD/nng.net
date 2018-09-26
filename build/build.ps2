@@ -1,0 +1,22 @@
+$nuget_source="E:\NoWorkUpload\Projects\CommonLibrary\nugets"
+$src_dir="E:\NoWorkUpload\Projects\CommonLibrary\nng.net\"
+$nupkg_output_dir="E:\NoWorkUpload\Projects\CommonLibrary\nng.net\nupkgs"
+
+function pack_netcore($project_name)
+{
+    $csproj_path=$src_dir + $project_name + "\" + $project_name + ".csproj"
+    dotnet pack -c Release -o $nupkg_output_dir $csproj_path
+    
+    #nuget init $nupkg_output_dir $nuget_source
+    #remove-item $nupkg_output_dir\*.nupkg
+}
+
+pack_netcore("NanomsgPlus")
+#nuget pack $src_dir"NanomsgPlus\NanomsgPlus.csproj.nuspec" -OutputDirectory $nupkg_output_dir -Properties Configuration=Release
+pack_netcore("nng.net")
+
+nuget init $nupkg_output_dir $nuget_source
+remove-item $nupkg_output_dir\*.nupkg
+
+Write-Host 'Press any key to continue...' -NoNewline
+$null = [Console]::ReadKey('?')
