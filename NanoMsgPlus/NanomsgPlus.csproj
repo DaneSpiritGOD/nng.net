@@ -8,24 +8,18 @@
     <Authors>DaneSpiritGOD</Authors>
     <Company>NanJing.com</Company>
     <Product>nng.net</Product>
-    <Version>1.0.17</Version>
+    <Version>1.0.22</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Suites.Core" Version="1.0.4" />
+    <PackageReference Include="Suites.Core" Version="1.0.12" />
   </ItemGroup>
   <ItemGroup>
     <None Update="x64\nanomsg.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
-      <PackagePath>lib\netstandard2.0\x64</PackagePath>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
     </None>
     <None Update="x86\nanomsg.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
-      <PackagePath>lib\netstandard2.0\x86</PackagePath>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
     </None>
   </ItemGroup>
 </Project>

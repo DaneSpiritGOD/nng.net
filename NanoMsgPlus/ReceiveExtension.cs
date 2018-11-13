@@ -1,11 +1,12 @@
-﻿using NanomsgPlus.Core;
-using NanomsgPlus;
+﻿using NanomsgPlus;
+using NanomsgPlus.Core;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 namespace NanomsgPlus
 {
@@ -66,14 +67,21 @@ namespace NanomsgPlus
 
             var fds = new[] { fd };
             var results = Poll(fds, timeout);
-            if (results.Count() != 1) throw new NotImplementedException();
+            if (results.Count() != 1)
+            {
+                throw new NotImplementedException();
+            }
+
             return results.Single();
         }
 
         public static IEnumerable<Memory<byte>> Poll(this int[] fds, int timeout)
         {
             var count = fds.Length;
-            if (count == 0) return new[] { Memory<byte>.Empty };
+            if (count == 0)
+            {
+                return new[] { Memory<byte>.Empty };
+            }
 
             Span<nn_pollfd> pollFds = stackalloc nn_pollfd[count];
             for (var index = 0; index < count; ++index)
@@ -85,7 +93,7 @@ namespace NanomsgPlus
             return Poll(pollFds, timeout);
         }
 
-        private unsafe static IEnumerable<Memory<byte>> Poll(this Span<nn_pollfd> pollFds, int timeout)
+        private static unsafe IEnumerable<Memory<byte>> Poll(this Span<nn_pollfd> pollFds, int timeout)
         {
             var rc = 0;
             fixed (nn_pollfd* pInfo = pollFds)
@@ -96,17 +104,26 @@ namespace NanomsgPlus
             if (rc == -1)
             {
                 if (NN.Errno() == Core.Error.EPERM)
+                {
                     throw new NanomsgPlusSocketNullOrDisposedException();//socket被disposed了
+                }
                 else
+                {
                     throw new NanomsgException();
+                }
             }
-            if (rc == 0) return new[] { Memory<byte>.Empty };
+            if (rc == 0)
+            {
+                return new[] { Memory<byte>.Empty };
+            }
 
             var mems = new List<Memory<byte>>();
             for (var index = 0; index < pollFds.Length; ++index)
             {
                 if ((pollFds[index].revents & PollEvent.NN_POLLIN) != 0)
+                {
                     mems.Add(readFromFd(pollFds[index].fd));
+                }
             }
             return mems;
         }
@@ -115,13 +132,44 @@ namespace NanomsgPlus
         {
             var zero = IntPtr.Zero;
             var num = Interop.nn_recv(fd, ref zero, SendRecv.NN_MSG, async ? SendRecv.NN_DONTWAIT : SendRecv.NN_WAIT);
-            if (num < 0 || zero == IntPtr.Zero) throw new NanomsgException();
+            if (num < 0 || zero == IntPtr.Zero)
+            {
+                throw new NanomsgException();
+            }
 
             var data = new byte[num];
             Marshal.Copy(zero, data, 0, num);
 
-            if (Interop.nn_freemsg(zero) != 0) throw new NanomsgException();
+            if (Interop.nn_freemsg(zero) != 0)
+            {
+                throw new NanomsgException();
+            }
+
             return data;
+        }
+
+        private static unsafe IMemoryOwner<byte> readFromFd2MemoryOwner(int fd)
+        {
+            var zero = IntPtr.Zero;
+            var num = Interop.nn_recv(fd, ref zero, SendRecv.NN_MSG, SendRecv.NN_DONTWAIT);
+            if (num < 0 || zero == IntPtr.Zero)
+            {
+                throw new NanomsgException();
+            }
+
+            var owner = MemoryPool<byte>.Shared.Rent(num);
+            var mem = owner.Memory;
+            using (var handle = mem.Pin())
+            {
+                Buffer.MemoryCopy(zero.ToPointer(), handle.Pointer, mem.Length, num);
+            }
+
+            if (Interop.nn_freemsg(zero) != 0)
+            {
+                throw new NanomsgException();
+            }
+
+            return owner;
         }
     }
 }
