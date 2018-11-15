@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nng.net", "nng.net\nng.net.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanomsgPlus", "NanoMsgPlus\NanomsgPlus.csproj", "{EDB3FF4D-8F2F-494B-A0CB-6745A2376B66}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{51B24B87-D7FD-43E6-9B46-6DF9127123E6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCopyBenchmark", "Tests\MemoryCopyBenchmark\MemoryCopyBenchmark.csproj", "{6A95E528-3DCA-41EA-B4B9-92E47689F626}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,16 +21,9 @@ Global
 		{EDB3FF4D-8F2F-494B-A0CB-6745A2376B66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDB3FF4D-8F2F-494B-A0CB-6745A2376B66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDB3FF4D-8F2F-494B-A0CB-6745A2376B66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A95E528-3DCA-41EA-B4B9-92E47689F626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A95E528-3DCA-41EA-B4B9-92E47689F626}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A95E528-3DCA-41EA-B4B9-92E47689F626}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A95E528-3DCA-41EA-B4B9-92E47689F626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{6A95E528-3DCA-41EA-B4B9-92E47689F626} = {51B24B87-D7FD-43E6-9B46-6DF9127123E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {86311099-F524-40B0-938C-9B524CC01927}
