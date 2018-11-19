@@ -24,43 +24,6 @@ namespace NanomsgPlus
             return readFromFd(fd, false);
         }
 
-        ///// <summary>
-        ///// nn_poll for high performance
-        ///// </summary>
-        ///// <param name="socket"></param>
-        ///// <param name="timeout">second</param>
-        ///// <returns></returns>
-        //public unsafe static ReceivedBuffer PollReceiveFrom(this NanomsgSocketBase socket, int timeout)
-        //{
-        //    if (socket == null || socket.SocketID < 0) throw new NanomsgPlusSocketNullOrDisposedException();
-
-        //    var info = new nn_pollfd[1];
-        //    info[0].fd = socket.SocketID;
-        //    info[0].events = PollEvent.NN_POLLIN;
-
-        //    var rc = 0;
-        //    fixed (nn_pollfd* pInfo = info)
-        //    {
-        //        rc = Interop.nn_poll(pInfo, 1, timeout);
-        //    }
-
-        //    //这里没有使用抛出异常的原因是，polltimeout频繁发生，抛出异常会影响性能
-        //    if (rc == 0) return ReceivedBuffer.Null;//throw new NanomsgPlusPollTimeoutException();
-        //    if (rc == -1)
-        //    {
-        //        var nce = new NanomsgException();
-        //        if (nce.ErrorCode == Core.Error.EPERM)
-        //            throw new NanomsgPlusSocketNullOrDisposedException();//socket被disposed了
-        //        else
-        //            throw nce;
-        //    }
-
-        //    var zero = IntPtr.Zero;
-        //    var num = Interop.nn_recv(socket.SocketID, ref zero, SendRecv.NN_MSG, SendRecv.NN_DONTWAIT);
-        //    if (num < 0) throw new NanomsgException();
-        //    return new ReceivedBuffer(zero, num);
-        //}
-
         public static Memory<byte> Poll(this int fd, int timeout)
         {
             NumberOutOfRangeException<int>.Assert(fd, -1, int.MaxValue, nameof(fd));
