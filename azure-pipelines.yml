@@ -3,7 +3,7 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
-name: DaneSpiritGOD.Suites  # build numbering format
+name: DaneSpiritGOD.nng.net  # build numbering format
 #resources:
   #containers: [ container ]
   #repositories: [ repository ]
@@ -25,13 +25,7 @@ jobs:
       buildConfiguration: 'Release'
       srcRoot: './src/'
       nugetSource: 'https://api.nuget.org/v3/index.json'
-      corePrj: 'Suites.Core'
-      autoMapperPrj: 'Suites.AutoMapper'
-      mediatRPrj: 'Suites.MediatR'
-      prismPrj: 'Suites.Prism.Wpf.Fx'
-      winPrj: 'Suites.WindowsPlatform'
-      wpfAppPrj: 'Suites.Wpf.App'
-      wpfCorePrj: 'Suites.Wpf.Core'
+      nanomsgPlus: 'NanomsgPlus'
 
     steps:
     - task: DotNetCoreInstaller@0
@@ -39,53 +33,6 @@ jobs:
         packageType: 'sdk' # Options: runtime, sdk
         version: '2.1.500'
 
-    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(corePrj)/$(corePrj).csproj
-    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(autoMapperPrj)/$(autoMapperPrj).csproj
-    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(mediatRPrj)/$(mediatRPrj).csproj
-    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(prismPrj)/$(prismPrj).csproj
-    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(winPrj)/$(winPrj).csproj
-    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(wpfCorePrj)/$(wpfCorePrj).csproj
-
-    - task: NuGetToolInstaller@0
-    - task: NuGetCommand@2
-      inputs:
-        command: 'restore'
-        restoreSolution: $(srcRoot)$(wpfAppPrj)/$(wpfAppPrj).csproj
-        feedsToUse: 'select'
-        includeNuGetOrg: true
-    - task: VSBuild@1
-      inputs: 
-        solution: $(srcRoot)$(wpfAppPrj)/$(wpfAppPrj).csproj
-        configuration: $(buildConfiguration)
-        platform: '$(csprojBuildPlatform)'
-    #- task: MSBuild@1
-      #inputs: 
-        #solution: $(srcRoot)$(wpfAppPrj)/$(wpfAppPrj).csproj
-        #msbuildArguments: '-r -p:OutDir=bin\Release'
-        #configuration: $(buildConfiguration)
-        #platform: '$(csprojBuildPlatform)'
-    - task: NuGetCommand@2
-      inputs:
-        command: pack
-        packagesToPack: $(srcRoot)$(wpfAppPrj)/$(wpfAppPrj).csproj.nuspec
-        configuration: $(buildConfiguration)
-        packDestination: $(Build.ArtifactStagingDirectory)
+    - script: dotnet pack -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) $(srcRoot)$(nanomsgPlus)/$(nanomsgPlus).csproj
 
     - script: dotnet nuget push $(Build.ArtifactStagingDirectory)\*.nupkg -k $(nuget.key) -s $(nugetSource) -n
-
-    #- task: NuGetToolInstaller@0
-
-    #- task: NuGetCommand@2
-      #inputs:
-        #restoreSolution: '$(solution)'
-
-    #- task: VSBuild@1
-      #inputs:
-        #solution: '$(solution)'
-        #platform: '$(buildPlatform)'
-        #configuration: '$(buildConfiguration)'
-
-    #- task: VSTest@2
-      #inputs:
-        #platform: '$(buildPlatform)'
-        #configuration: '$(buildConfiguration)'

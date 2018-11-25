@@ -1,56 +1,9 @@
-[![Build Status](https://dev.azure.com/DaneSpiritGOD/Suites/_apis/build/status/DaneSpiritGOD.Suites)](https://dev.azure.com/DaneSpiritGOD/Suites/_build/latest?definitionId=1)
+ï»¿# ä»‹ç»
 
-# ½éÉÜ
-SuitesÊÇ±¾ÈËÔÚ½øĞĞ¿Í»§¶Ë¿ª·¢Ê±£¬¶ÔÏîÄ¿½øĞĞ.net core/standard¸ÄÔìµÄ¹ı³ÌÖĞ»ıÀÛµÄÒ»Ğ©Àà¿â¡£
+nngå’Œnanomsgçš„.netå°è£…
 
-[Í¨ÓÃÖ÷»ú](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-2.1)ÊÇasp.net coreÖĞ±È½ÏĞÂµÄ¸ÅÄî¡£
-	```
-	Í¨ÓÃÖ÷»úµÄÄ¿±êÊÇ½« HTTP ¹ÜµÀ´Ó Web Ö÷»ú API ÖĞ·ÖÀë³öÀ´£¬´Ó¶øÆôÓÃ¸ü¶àµÄÖ÷»ú·½°¸¡£ »ùÓÚÍ¨ÓÃÖ÷»úµÄÏûÏ¢¡¢ºóÌ¨ÈÎÎñºÍÆäËû·Ç HTTP ¹¤×÷¸ºÔØ¿É´ÓºáÇĞ¹¦ÄÜ£¨ÈçÅäÖÃ¡¢ÒÀÀµ¹ØÏµ×¢Èë [DI] ºÍÈÕÖ¾¼ÇÂ¼£©ÖĞÊÜÒæ¡£
-	```
+# ä½¿ç”¨æ–¹æ³•
 
-×îÖ÷ÒªµÄ¼¸¸öÀà¿âÊÇ`Suites.Core`¡¢`Suites.Wpf.Core`ºÍ`Suites.Prism.Wpf.Fx`¡£
+nugetæœç´¢NanomsgPluså’Œnng.net
 
-## Suites.Core
-Õâ¸öÄ£¿é°üº¬ÁËÒ»Ğ©³£ÓÃµÄÒÀÀµ°ü£¬±ÈÈç£º`Microsoft.AspNetCore`,`Microsoft.Extensions.Hosting`,`Microsoft.Extensions.Options.ConfigurationExtensions`,`NLog.Extensions.Logging`µÈ¡£
-ÎÒÄ£·ÂAsp.Net CoreÖĞµÄ`CreateDefaultBuilder`´´½¨ÁËÍ¨ÓÃÖ÷»ú»·¾³ÏÂµÄÀàËÆ¹¦ÄÜ£º
-```
-public static IHostBuilder CreateDefaultHostBuilder(string[] args)
-{
-    return new HostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory())
-        .ConfigureHostConfiguration(configHost =>
-        {
-            configHost.AddJsonFile("hostsettings.json", true, true);
-            configHost.AddEnvironmentVariables(prefix: "PREFIX_");
-
-            if (args != null)
-            {
-                configHost.AddCommandLine(args);
-            }
-        })
-        .ConfigureAppConfiguration((hostContext, configApp) =>
-        {
-            configApp.AddJsonFile("appsettings.json", true, true);
-            configApp.AddJsonFile(
-                $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
-                true, true);
-            configApp.AddEnvironmentVariables(prefix: "PREFIX_");
-
-            if (args != null)
-            {
-                configApp.AddCommandLine(args);
-            }
-        })
-        .AddNLogExt();
-}
-```
-
-## Suites.Wpf.Core
-.net core SDKÌá¹©µÄÍ¨ÓÃÖ÷»úÊÇÔÚconsole»·¾³ÏÂµÄ£¬¶øÎÒ³¤ÆÚ´ÓÊÂWPFµÄ¿Í»§¶Ë¿ª·¢£¬×ÔÈ»ĞèÒªWPFµÄHostLifetime£¬ËùÒÔÔÚÔÄ¶ÁÁËÎ¢ÈíµÄÏà¹Ø´úÂëºó£¬×Ô¼º¶¨ÒåÁË`WpfLifetime`Àà¡£
-
-## Suites.Prism.Wpf.Fx
-ÓëWpf´ò½»µÀ×ÔÈ»Ãâ²»ÁËmvvmµÄ¿ò¼Ü£¬ÎÒÒ»Ö±Ê¹ÓÃµÄÊÇPrism£¬ËùÒÔ·ÂÔìPrism.Unity.*£¬ÀûÓÃIHostBuilder±àĞ´ÁËĞí¶à°ïÖúÀà£¬´Ó´ËÔÚWpfºÍPrismµÄ»·¾³ÏÂ£¬×ÔÓÉµØÊ¹ÓÃÎ¢ÈíÌá¹©µÄÒÀÀµ×¢Èë¡£
-
-
-## Ê¹ÓÃ·½·¨
-¼û`Suites.Demo`
+https://github.com/DaneSpiritGOD/ ä¸‹æœ‰è¾ƒä¸ºå®Œæ•´çš„NanomsgPlusåº”ç”¨SimpleEyeï¼ˆserverï¼‰å’ŒScannerï¼ˆclientï¼‰
